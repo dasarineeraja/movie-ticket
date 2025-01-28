@@ -203,7 +203,7 @@ public class DashboardServlet extends HttpServlet {
 				+ "        <section id=\"main-showcase\">\r\n" + "            <h1>Movies</h1>\r\n"
 				+ "            <div class=\"card-container\">");
 
-		for (Movie movie : Movie) {
+		for (Movie movie : movieList) {
 			html.append("<div class=\"box\">\r\n" + "                    <img src=" + movie.getMovieUrl()
 					+ " alt=\"Movie image\" />\r\n" + "                    <h4>Movie Name: " + movie.getMovieName()
 					+ "</h4>\r\n" + "                    <h4>Movie Rating: " + movie.getMovieRating() + "</h4>\r\n"
