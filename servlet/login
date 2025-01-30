@@ -1,27 +1,28 @@
 package movieTicketSystem;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import movieTicketSystem.user.User;
+import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-
-@WebServlet("/LoginServlet")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static ArrayList<User> userList = new ArrayList<>();
+	private static ArrayList<user> userList = new ArrayList<>();
 
-	static {
-		userList.add(new User("Neeraja", "8317596793", "neeraja@gmail.com", "1234567"));
-		userList.add(new User("Santu", "9963956709", "santu@gmail.com", "456"));
-		userList.add(new User("Prasu", "8256987652", "prasue@gmail.com", "789"));
+	@Override
+	public void init() throws ServletException {
+		userList  .add(new  user("neeru","333"));
+		userList .add(new  user("santu","444"));
+		userList.add(new user("prasu","555"));
 	}
 
 	@Override
@@ -30,14 +31,12 @@ public class LoginServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String password = request.getParameter("password");
 
-		for (User user : userList) {
-			if (user.getPhoneNumber().equals(phone)) {
+		for (user user : userList) {
 				if (user.getPassword().equals(password)) {
 
-					//Cookie loginCookie = new Cookie("user", phone);
-					//loginCookie.setMaxAge(120);
-					//loginCookie.setPath("/");
-					//response.addCookie(loginCookie);
+					Cookie loginCookie = new Cookie("user", phone);
+					loginCookie.setMaxAge(3600);
+					response.addCookie(loginCookie);
 
 //					For cookies we cant use RequestDispatcher because the browser doesn't receive the response with the cookies.
 //	              	Thus, cookies are unavailable in the target servlet during the same request lifecycle.
@@ -47,12 +46,18 @@ public class LoginServlet extends HttpServlet {
 
 //	 			  	So when we use the cookies, we can use sendRedirect method so the to ensure cookies are sent back to the server in a new request.
 //	              	RequestDispatcher.forward only for internal navigation when cookies or a new request lifecycle are not required.
+					
+					
+//					Use RequestDispatcher.forward() for internal navigation within the same request lifecycle, 
+//					but avoid it when setting cookies since they won't reach the client. Instead, use response.sendRedirect(), 
+//					which triggers a new request where cookies are sent and available in the target servlet.
 
 					response.sendRedirect("DashboardServlet");
 				}
-			}
+			
 		}
 
 		response.getWriter().println("Account Not Present");
 	}
 }
+	
