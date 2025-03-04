@@ -1,0 +1,100 @@
+The UML diagram for the movie ticket booking system:
+
+Use Case Diagram:
+
+
++---------------+
+|  Customer   |
++---------------+
+       |
+       | Book Movie Ticket
+       v
++---------------+
+|  System     |
++---------------+
+
+
+Sequence Diagram:
+
+
++---------------+    +---------------+    +---------------+
+|  Customer   |    |  System     |    | Payment Gateway|
++---------------+    +---------------+    +---------------+
+       |                         |                         |
+       |  Request to book ticket |                         |
+       |------------------------>|                         |
+       |                         |  Display movie schedule  |
+       |                         |  and availability          |
+       |                         |------------------------->|
+       |                         |                         |
+       |  Select movie, showtime,|                         |
+       |  and seats              |                         |
+       |------------------------>|                         |
+       |                         |  Display payment options  |
+       |                         |------------------------->|
+       |                         |                         |
+       |  Select payment option  |                         |
+       |  and enter payment details|                         |
+       |------------------------>|                         |
+       |                         |  Verify payment details  |
+       |                         |------------------------->|
+       |                         |                         |
+       |                         |  Confirm payment success |
+       |                         |<-------------------------|
+       |                         |                         |
+       |  Display booking confirmation|                         |
+       |  and ticket details      |                         |
+       |<-------------------------|                         |
+
+
+Class Diagram:
+
+
++---------------+
+|  Customer   |
++---------------+
+| - name: String |
+| - email: String|
+| - phone: String |
+| + bookTicket()  |
+| + viewBookingHistory()|
++---------------+
+
++---------------+
+|  Movie      |
++---------------+
+| - title: String |
+| - showtime: Date|
+| - availability: int|
+| + getShowtime()  |
+| + getAvailability()|
++---------------+
+
++---------------+
+|  Ticket     |
++---------------+
+| - ticketID: int |
+| - movieTitle: String|
+| - showtime: Date  |
+| - seatNumber: int |
+| + getTicketDetails()|
+| + cancelTicket()    |
++---------------+
+
++---------------+
+| PaymentGateway|
++---------------+
+| - paymentMethod: String|
+| - paymentStatus: String|
+| + verifyPayment()  |
+| + confirmPayment()  |
++---------------+
+
++---------------+
+|  System     |
++---------------+
+| - database: Database|
+| + displayMovieSchedule()|
+| + bookTicket()        |
+| + cancelTicket()      |
++---------------+
